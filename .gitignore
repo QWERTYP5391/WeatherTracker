@@ -1,2 +1,7 @@
+/target
+/node_modules
+
+*.log
+
 # HackerRank infrastructure files
 /.c1
