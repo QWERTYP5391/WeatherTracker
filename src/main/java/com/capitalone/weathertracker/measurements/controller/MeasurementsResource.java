@@ -1,5 +1,7 @@
-package com.capitalone.weathertracker.measurements;
+package com.capitalone.weathertracker.measurements.controller;
 
+import com.capitalone.weathertracker.measurements.service.MeasurementStore;
+import com.capitalone.weathertracker.measurements.model.Measurement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.net.URI;

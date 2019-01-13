@@ -3,8 +3,8 @@ package com.capitalone.weathertracker.statistics;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import com.capitalone.weathertracker.measurements.Measurement;
-import com.capitalone.weathertracker.measurements.MeasurementQueryService;
+import com.capitalone.weathertracker.measurements.model.Measurement;
+import com.capitalone.weathertracker.measurements.service.MeasurementQueryService;
 
 import org.springframework.web.bind.annotation.*;
 

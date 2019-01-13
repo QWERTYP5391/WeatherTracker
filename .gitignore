@@ -5,3 +5,5 @@
 
 # HackerRank infrastructure files
 /.c1
+.idea/*
+*.iml
