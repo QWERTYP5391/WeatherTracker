@@ -26,7 +26,7 @@ public class MeasurementAggregatorImpl implements MeasurementAggregator {
 
     public List<AggregateResult> analyze(List<Measurement> measurements, List<String> metrics, List<Statistic> stats) {
 
-        setMetricsToCheck(metrics);
+        setWhichMetricsToCheck(metrics);
 
         List<AggregateResult> aggregateResults = new ArrayList<>();
         temperatures = new TreeSet<>();
@@ -39,12 +39,11 @@ public class MeasurementAggregatorImpl implements MeasurementAggregator {
             precipitationTotal = getTemperatureTotal(precipitations, precipitationTotal, measurement, Metric.PRECIPITATION);
         }
 
-        loadAggregateResults(stats, aggregateResults, measurements.size());
-        setMetricsBack();
+        loadAggregateResults(stats, aggregateResults);
         return aggregateResults;
     }
 
-    private void setMetricsToCheck(List<String> metrics) {
+    private void setWhichMetricsToCheck(List<String> metrics) {
         for (String metric : metrics) {
             if (metric.equals(Metric.TEMPERATURE.getMetric())) {
                 checkTemperature = true;
@@ -54,12 +53,6 @@ public class MeasurementAggregatorImpl implements MeasurementAggregator {
                 checkPrecipitation = true;
             }
         }
-    }
-
-    private void setMetricsBack() {
-        checkTemperature = false;
-        checkDewPoint = false;
-        checkPrecipitation = false;
     }
 
     private double getTemperatureTotal(TreeSet<Double> set, double total, Measurement measurement, Metric metric) {
@@ -72,28 +65,28 @@ public class MeasurementAggregatorImpl implements MeasurementAggregator {
     }
 
 
-    private void loadAggregateResults(List<Statistic> stats, List<AggregateResult> aggregateResults, int size) {
+    private void loadAggregateResults(List<Statistic> stats, List<AggregateResult> aggregateResults) {
         if (checkTemperature) {
-            loadAggregateResultsByMetric(stats, temperatures, temperatureTotal, Metric.TEMPERATURE.getMetric(), aggregateResults, size);
+            loadAggregateResultsByMetric(stats, temperatures, temperatureTotal, Metric.TEMPERATURE.getMetric(), aggregateResults);
         }
         if (checkDewPoint) {
-            loadAggregateResultsByMetric(stats, dewPoints, dewPointTotal, Metric.DEW_POINT.getMetric(), aggregateResults, size);
+            loadAggregateResultsByMetric(stats, dewPoints, dewPointTotal, Metric.DEW_POINT.getMetric(), aggregateResults);
         }
         if (checkPrecipitation) {
-            loadAggregateResultsByMetric(stats, precipitations, precipitationTotal, Metric.PRECIPITATION.getMetric(), aggregateResults, size);
+            loadAggregateResultsByMetric(stats, precipitations, precipitationTotal, Metric.PRECIPITATION.getMetric(), aggregateResults);
         }
     }
 
-    private void loadAggregateResultsByMetric(List<Statistic> stats, TreeSet<Double> set, double total, String metric, List<AggregateResult> aggregateResults, int size) {
+    private void loadAggregateResultsByMetric(List<Statistic> stats, TreeSet<Double> set, double total, String metric, List<AggregateResult> aggregateResults) {
         if (set.size() > 0) {
-            if (stats.contains(Statistic.MIN)) {
-                aggregateResults.add(new AggregateResult(metric, Statistic.MIN, set.first()));
-            }
-            if (stats.contains(Statistic.MAX)) {
-                aggregateResults.add(new AggregateResult(metric, Statistic.MAX, set.last()));
-            }
-            if (stats.contains(Statistic.AVERAGE)) {
-                aggregateResults.add(new AggregateResult(metric, Statistic.AVERAGE, total / set.size()));
+            for (Statistic stat : stats) {
+                if (stat.equals(Statistic.MIN)) {
+                    aggregateResults.add(new AggregateResult(metric, Statistic.MIN, set.first()));
+                } else if (stat.equals(Statistic.MAX)) {
+                    aggregateResults.add(new AggregateResult(metric, Statistic.MAX, set.last()));
+                } else if (stat.equals(Statistic.AVERAGE)) {
+                    aggregateResults.add(new AggregateResult(metric, Statistic.AVERAGE, total / set.size()));
+                }
             }
         }
     }
