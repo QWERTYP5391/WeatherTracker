@@ -4,7 +4,6 @@ import com.capitalone.weathertracker.measurements.model.Measurement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
 
@@ -26,6 +25,6 @@ public class MeasurementStoreImpl implements MeasurementStore {
     }
 
     public Measurement fetch(ZonedDateTime timestamp) {
-        return measurementHashMap.get(timestamp.withZoneSameInstant(ZoneId.of(ZONE_ID)));
+        return measurementHashMap.get(timestamp);
     }
 }

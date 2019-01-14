@@ -1,5 +1,6 @@
 package com.capitalone.weathertracker.statistics;
 
+import com.capitalone.weathertracker.statistics.model.Statistic;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.core.convert.converter.Converter;

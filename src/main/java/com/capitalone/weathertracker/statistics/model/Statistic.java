@@ -1,4 +1,4 @@
-package com.capitalone.weathertracker.statistics;
+package com.capitalone.weathertracker.statistics.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

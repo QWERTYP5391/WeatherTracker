@@ -1,5 +1,6 @@
 package com.capitalone.weathertracker;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.*;
 
@@ -17,6 +18,8 @@ class DateSerializationConfiguration {
     .parseCaseInsensitive()
     .appendInstant(3)
     .toFormatter();
+
+  private static final String ZONE_ID = "UTC";
 
   @Bean
   public DateTimeFormatter dateTimeFormatter() {
@@ -40,7 +43,7 @@ class DateSerializationConfiguration {
   static class ZonedDateTimeConverter implements Converter<String, ZonedDateTime> {
     @Override
     public ZonedDateTime convert(String source) {
-      return ZonedDateTime.parse(source);
+      return ZonedDateTime.parse(source).withZoneSameInstant(ZoneId.of(ZONE_ID));
     }
   }
 }

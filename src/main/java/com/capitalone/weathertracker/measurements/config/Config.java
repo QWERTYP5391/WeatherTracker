@@ -7,8 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
 
+
 @Configuration
-public class CacheConfig {
+public class Config {
 
 
     @Bean

@@ -1,6 +1,5 @@
-package com.capitalone.weathertracker.statistics;
+package com.capitalone.weathertracker.statistics.model;
 
-import com.capitalone.weathertracker.statistics.Statistic;
 import com.fasterxml.jackson.annotation.JsonGetter;
 
 public class AggregateResult {
