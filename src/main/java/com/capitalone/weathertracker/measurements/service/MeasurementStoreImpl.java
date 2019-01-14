@@ -10,7 +10,6 @@ import java.util.HashMap;
 @Service
 public class MeasurementStoreImpl implements MeasurementStore {
 
-    public static final String ZONE_ID = "UTC";
     private HashMap<ZonedDateTime, Measurement> measurementHashMap;
 
     @Autowired
@@ -19,9 +18,7 @@ public class MeasurementStoreImpl implements MeasurementStore {
     }
 
     public void add(Measurement measurement) {
-        if (measurement != null) {
-            measurementHashMap.put(measurement.getTimestamp(), measurement);
-        }
+        measurementHashMap.put(measurement.getTimestamp(), measurement);
     }
 
     public Measurement fetch(ZonedDateTime timestamp) {

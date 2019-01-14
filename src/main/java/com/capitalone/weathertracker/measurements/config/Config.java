@@ -11,9 +11,8 @@ import java.util.HashMap;
 @Configuration
 public class Config {
 
-
     @Bean
-    public HashMap<ZonedDateTime, Measurement> getMeasurementMap(){
+    public HashMap<ZonedDateTime, Measurement> getMeasurementMap() {
         return new HashMap<>();
     }
 }

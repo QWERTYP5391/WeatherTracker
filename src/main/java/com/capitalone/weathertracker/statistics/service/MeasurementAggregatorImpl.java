@@ -1,8 +1,8 @@
 package com.capitalone.weathertracker.statistics.service;
 
 import com.capitalone.weathertracker.measurements.model.Measurement;
-import com.capitalone.weathertracker.statistics.model.Metric;
 import com.capitalone.weathertracker.statistics.model.AggregateResult;
+import com.capitalone.weathertracker.statistics.model.Metric;
 import com.capitalone.weathertracker.statistics.model.Statistic;
 import org.springframework.stereotype.Service;
 
@@ -13,21 +13,25 @@ import java.util.TreeSet;
 @Service
 public class MeasurementAggregatorImpl implements MeasurementAggregator {
 
-    private static boolean checkTemperature = false;
-    private static boolean checkDewPoint = false;
-    private static boolean checkPrecipitation = false;
-    private TreeSet<Double> temperatures = new TreeSet<>();
-    private TreeSet<Double> dewPoints = new TreeSet<>();
-    private TreeSet<Double> precipitations = new TreeSet<>();
+    private boolean checkTemperature;
+    private boolean checkDewPoint;
+    private boolean checkPrecipitation;
     private double temperatureTotal;
     private double dewPointTotal;
     private double precipitationTotal;
+    private TreeSet<Double> temperatures;
+    private TreeSet<Double> dewPoints;
+    private TreeSet<Double> precipitations;
+
 
     public List<AggregateResult> analyze(List<Measurement> measurements, List<String> metrics, List<Statistic> stats) {
 
         setMetricsToCheck(metrics);
 
         List<AggregateResult> aggregateResults = new ArrayList<>();
+        temperatures = new TreeSet<>();
+        dewPoints = new TreeSet<>();
+        precipitations = new TreeSet<>();
 
         for (Measurement measurement : measurements) {
             temperatureTotal = getTemperatureTotal(temperatures, temperatureTotal, measurement, Metric.TEMPERATURE);
@@ -38,6 +42,18 @@ public class MeasurementAggregatorImpl implements MeasurementAggregator {
         loadAggregateResults(stats, aggregateResults, measurements.size());
         setMetricsBack();
         return aggregateResults;
+    }
+
+    private void setMetricsToCheck(List<String> metrics) {
+        for (String metric : metrics) {
+            if (metric.equals(Metric.TEMPERATURE.getMetric())) {
+                checkTemperature = true;
+            } else if (metric.equals(Metric.DEW_POINT.getMetric())) {
+                checkDewPoint = true;
+            } else if (metric.equals(Metric.PRECIPITATION.getMetric())) {
+                checkPrecipitation = true;
+            }
+        }
     }
 
     private void setMetricsBack() {
@@ -55,17 +71,6 @@ public class MeasurementAggregatorImpl implements MeasurementAggregator {
         return total;
     }
 
-    private void setMetricsToCheck(List<String> metrics) {
-        for (String metric : metrics) {
-            if (metric.equals(Metric.TEMPERATURE.getMetric())) {
-                checkTemperature = true;
-            } else if (metric.equals(Metric.DEW_POINT.getMetric())) {
-                checkDewPoint = true;
-            } else if (metric.equals(Metric.PRECIPITATION.getMetric())) {
-                checkPrecipitation = true;
-            }
-        }
-    }
 
     private void loadAggregateResults(List<Statistic> stats, List<AggregateResult> aggregateResults, int size) {
         if (checkTemperature) {

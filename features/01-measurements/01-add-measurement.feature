@@ -23,3 +23,11 @@ Feature: Add a measurement
       | temperature | dewPoint | precipitation |
       | 27.1        | 20       | 0             |
     Then the response has a status code of 400
+
+  @new
+  Scenario: Cannot add a measurement with a invalid timestamp
+    # POST /measurements
+    When I submit a new measurement as follows:
+      | timestamp                 | temperature | dewPoint | precipitation |
+      | "this is not a timestamp" | 27.1        | 20       | 0             |
+    Then the response has a status code of 400
