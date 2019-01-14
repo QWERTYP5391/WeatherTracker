@@ -31,7 +31,6 @@ public class StatsResource {
             @RequestParam("toDateTime") ZonedDateTime to
     ) {
         List<Measurement> measurements = queryService.queryDateRange(from, to);
-        List<AggregateResult> results = aggregator.analyze(measurements, metrics, stats);
-        return results;
+       return aggregator.analyze(measurements, metrics, stats);
     }
 }
